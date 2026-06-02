@@ -1,0 +1,8 @@
+# Root-level ignores (sub-folders have their own .gitignore)
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db

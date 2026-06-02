@@ -1,0 +1,193 @@
+### 1️⃣ Register Vendor
+POST http://localhost:3000/common-api/register
+Content-Type: application/json
+
+{
+  "name": "John Vendor",
+  "email": "vendor@gmail.com",
+  "password": "123456",
+  "role": "vendor",
+  "phone": "1234567890"
+}
+
+### 2️⃣ Login Vendor
+POST http://localhost:3000/common-api/login
+Content-Type: application/json
+
+{
+  "email": "vendor@gmail.com",
+  "password": "123456"
+}
+
+### 3️⃣ Create Restaurant
+POST http://localhost:3000/restraunt-api/registerrestaurant
+Content-Type: application/json
+
+{
+  "name": "Pizza Hut",
+  "location": "New York",
+  "category": ["veg"],
+  "variety": ["north-indian"],
+  "offer": "20% off",
+  "image": "https://example.com/pizza.jpg"
+}
+
+### 4️⃣ Add Product 
+POST http://localhost:3000/product-api/addproduct
+Content-Type: application/json
+
+{
+  "name": "Margherita Pizza",
+  "description": "Classic pizza",
+  "price": 299,
+  "category": "veg",
+  "restaurantId": "69a3e9b8015826efa1e15a1f"
+}
+### 5️⃣ Register User
+POST http://localhost:3000/common-api/register
+Content-Type: application/json
+
+{
+  "name": "Normal User",
+  "email": "user@gmail.com",
+  "password": "123456",
+  "role": "user",
+  "phone": "9999999999"
+}
+
+### 6️⃣ Login User
+POST http://localhost:3000/common-api/login
+Content-Type: application/json
+
+{
+  "email": "user@gmail.com",
+  "password": "123456"
+}
+
+### 7️⃣ Add To Cart 
+POST http://localhost:3000/cart-api/add
+Content-Type: application/json
+
+{
+  "productId": "69a3ed06920a05709245468b",
+  "quantity": 2
+}
+
+### 8️⃣ Checkout
+POST http://localhost:3000/order-api/checkout
+### 9️⃣ Create Razorpay Order
+POST http://localhost:3000/payment-api/create-order
+Content-Type: application/json
+
+{
+  "orderId": "69a4473e3cc8c2708ce51b39"
+}
+### 🔟 Verify Payment
+POST http://localhost:3000/payment-api/verify
+Content-Type: application/json
+
+{
+  "razorpay_payment_id": "pay_SLtEzXlvJfNYKz",
+  "razorpay_order_id": "order_SLtE7U55u602BZ",
+  "razorpay_signature": "95cd283d2a325844bc394ab0de64aae6f54ec1a9ab79d2b2bcef39a1db59d63c",
+  "orderId": "69a3ed3a920a05709245469c"
+}
+### 1️⃣1️⃣ Vendor Login
+POST http://localhost:3000/common-api/login
+Content-Type: application/json
+
+{
+  "email": "vendor@gmail.com",
+  "password": "123456"
+}
+### 1️⃣2️⃣ Accept Order
+PUT http://localhost:3000/order-api/69a38ea30f22b7581ec739c0/status
+Content-Type: application/json
+
+{
+  "status": "accepted"
+}
+### 1️⃣3️⃣ Mark Preparing
+PUT http://localhost:3000/order-api/69a38ea30f22b7581ec739c0/status
+Content-Type: application/json
+
+{
+  "status": "preparing"
+}
+### 1️⃣4️⃣ Register Delivery Partner
+POST http://localhost:3000/common-api/register
+Content-Type: application/json
+
+{
+  "name": "Delivery Guy",
+  "email": "delivery@gmail.com",
+  "password": "123456",
+  "role": "deliveryPartner",
+  "phone": "8888888888"
+}
+
+### 1️⃣5️⃣ Login Delivery Partner
+POST http://localhost:3000/common-api/login
+Content-Type: application/json
+
+{
+  "email": "delivery@gmail.com",
+  "password": "123456"
+}
+
+### 1️⃣6️⃣ Out for Delivery
+PUT http://localhost:3000/order-api/69a38ea30f22b7581ec739c0/status
+Content-Type: application/json
+
+{
+  "status": "out-for-delivery"
+}
+
+### 1️⃣7️⃣ Delivered
+PUT http://localhost:3000/order-api/69a38ea30f22b7581ec739c0/status
+Content-Type: application/json
+
+{
+  "status": "delivered"
+}
+### 1️⃣8️⃣ Add Review
+POST http://localhost:3000/review-api/restaurants/REPLACE_RESTAURANT_ID/reviews
+Content-Type: application/json
+
+{
+  "rating": 5,
+  "comment": "Amazing food!"
+}
+###cancel
+PUT http://localhost:3000/order-api/69a38ea30f22b7581ec739c0/status
+Content-Type: application/json
+
+{
+  "status": "cancelled"
+}
+### Login Admin
+POST http://localhost:3000/common-api/login
+Content-Type: application/json
+
+{
+  "email": "admin@gmail.com",
+  "password": "123456"
+}
+
+### Get All Users
+GET http://localhost:3000/admin-api/users
+
+### Block User
+PUT http://localhost:3000/admin-api/users/USER_ID/block
+
+### Get Vendors
+GET http://localhost:3000/admin-api/vendors
+
+### Get All Orders
+GET http://localhost:3000/admin-api/orders
+
+### Get Platform Revenue
+GET http://localhost:3000/admin-api/revenue
+
+### Payment Webhook
+POST http://localhost:3000/payment-api/webhook

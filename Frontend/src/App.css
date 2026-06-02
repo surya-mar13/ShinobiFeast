@@ -1,0 +1,4 @@
+/* Hide scrollbar for Chrome, Safari and Opera */
+.food-scroll::-webkit-scrollbar {
+  display: none;
+}
