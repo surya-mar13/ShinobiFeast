@@ -28,8 +28,19 @@ app.post(
   razorpayWebhook
 );
 app.use(exp.json());
+const allowedOrigins = [
+  "https://shinobifeast.vercel.app",
+  "http://localhost:5173"
+];
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:5173",
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || origin === process.env.CLIENT_URL) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 app.use(cookieParser());
