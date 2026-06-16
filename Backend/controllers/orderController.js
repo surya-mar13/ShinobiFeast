@@ -63,8 +63,6 @@ export const checkout = async (req, res) => {
     });
 
     await newOrder.save();
-    cart.items = [];
-    await cart.save();
     res.status(201).json({
       message: "Order placed successfully",
       order: newOrder

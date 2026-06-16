@@ -1,5 +1,6 @@
 import { Payment } from "../models/paymentModel.js";
 import { Order } from "../models/orderModel.js";
+import { Cart } from "../models/cartModel.js";
 import crypto from "crypto";
 import { razorpay } from "../utils/razorpay.js";
 
@@ -135,6 +136,9 @@ export const makePayment = async (req, res) => {
       if (codPreference && ["cash", "upi"].includes(codPreference)) {
         order.codPreference = codPreference;
       }
+      
+      // Clear cart on successful COD order placement
+      await Cart.findOneAndUpdate({ user: userId }, { items: [] });
     }
 
     await order.save();
@@ -235,6 +239,9 @@ order.paymentStatus = "paid";
 order.status = "accepted";
 
     await order.save();
+
+    // Clear cart on successful online payment
+    await Cart.findOneAndUpdate({ user: order.user }, { items: [] });
 
     // 💾 Save payment record
     await Payment.create({
@@ -379,6 +386,9 @@ export const razorpayWebhook = async (req, res) => {
       order.status = "accepted";
 
       await order.save();
+
+      // Clear cart on successful online payment webhook
+      await Cart.findOneAndUpdate({ user: order.user }, { items: [] });
 
       console.log("Order updated via webhook");
     }

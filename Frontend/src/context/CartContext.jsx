@@ -9,36 +9,36 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const fetchCart = useCallback(async () => {
+  const fetchCart = useCallback(async (showLoading = true) => {
     if (!user || user.role !== "user") return;
     try {
-      setLoading(true);
+      if (showLoading) setLoading(true);
       const data = await api.get("/cart-api/");
       setCart(data.cart);
     } catch {
       setCart(null);
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   }, [user]);
 
   useEffect(() => {
-    fetchCart();
+    fetchCart(true);
   }, [fetchCart]);
 
   const addToCart = async (productId, quantity = 1) => {
     await api.post("/cart-api/add", { productId, quantity });
-    await fetchCart();
+    await fetchCart(false);
   };
 
   const updateQuantity = async (productId, quantity) => {
     await api.put("/cart-api/update", { productId, quantity });
-    await fetchCart();
+    await fetchCart(false);
   };
 
   const removeFromCart = async (productId) => {
     await api.delete(`/cart-api/remove/${productId}`);
-    await fetchCart();
+    await fetchCart(false);
   };
 
   const clearLocalCart = () => setCart(null);
