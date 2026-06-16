@@ -6,6 +6,7 @@ import {authenticate} from '../middlewares/authenticate.js'
 import Restaurant from '../models/restaurantModel.js'
 import Product from '../models/productModel.js'
 import { Types } from "mongoose"
+import { DeliveryPartner } from "../models/deliveryPartnerModel.js"
 const commonApi=exp.Router()
 commonApi.post('/register', async (req, res) => {
     try {
@@ -22,6 +23,17 @@ commonApi.post('/register', async (req, res) => {
         const hash_password = await bcrypt.hash(password, 10)
         user.password = hash_password
         await user.save()
+
+        if (role === 'deliveryPartner') {
+            const { vehicleType, vehicleNumber } = req.body
+            const deliveryPartner = new DeliveryPartner({
+                user: user._id,
+                vehicleType,
+                vehicleNumber
+            })
+            await deliveryPartner.save()
+        }
+
         return res.status(201).json({
             message: "User registered successfully"
         })

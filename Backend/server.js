@@ -18,6 +18,8 @@ import deliveryApi from "./APIs/deliveryApi.js";
 import paymentApi from "./APIs/paymentApi.js";
 import adminApi from "./APIs/adminApi.js";
 import uploadApi from "./APIs/uploadApi.js";
+import User from "./models/userModel.js";
+import { DeliveryPartner } from "./models/deliveryPartnerModel.js";
 config();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = exp();
@@ -81,10 +83,31 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 const DB_URL = process.env.DB_URL;
 
+const migrateDeliveryPartners = async () => {
+  try {
+    const deliveryUsers = await User.find({ role: "deliveryPartner" });
+    for (const user of deliveryUsers) {
+      const existing = await DeliveryPartner.findOne({ user: user._id });
+      if (!existing) {
+        await DeliveryPartner.create({
+          user: user._id,
+          vehicleType: "bike",
+          vehicleNumber: "MIGRATED"
+        });
+        console.log(`🚚 Created delivery partner profile for user: ${user.email}`);
+      }
+    }
+  } catch (err) {
+    console.error("❌ Delivery partner migration failed:", err.message);
+  }
+};
+
 const connectDB = async () => {
   try {
     await connect(DB_URL);
     console.log("✅ DB connected successfully");
+
+    await migrateDeliveryPartners();
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
