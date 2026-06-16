@@ -14,7 +14,6 @@ function AdminUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [toggling, setToggling] = useState(null);
-  const [changingRole, setChangingRole] = useState(null);
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");
 
@@ -43,17 +42,7 @@ function AdminUsers() {
     }
   };
 
-  const handleChangeRole = async (userId, role) => {
-    setChangingRole(userId);
-    try {
-      await api.put(`/admin-api/users/${userId}/role`, { role });
-      await fetchUsers();
-    } catch (err) {
-      alert(err.message);
-    } finally {
-      setChangingRole(null);
-    }
-  };
+
 
   const filtered = users.filter((u) => {
     const matchSearch = u.name?.toLowerCase().includes(search.toLowerCase()) || u.email?.toLowerCase().includes(search.toLowerCase());
@@ -120,17 +109,7 @@ function AdminUsers() {
                   </td>
                   <td className="px-4 py-3 text-right">
                     <div className="flex items-center justify-end gap-2 flex-wrap">
-                      <select
-                        value={u.role}
-                        onChange={(e) => handleChangeRole(u._id, e.target.value)}
-                        disabled={changingRole === u._id}
-                        className="text-xs px-2 py-1.5 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-orange-300 disabled:opacity-60"
-                      >
-                        <option value="user">User</option>
-                        <option value="vendor">Vendor</option>
-                        <option value="admin">Admin</option>
-                        <option value="deliveryPartner">Delivery Partner</option>
-                      </select>
+
                       {currentUser?._id !== u._id && (
                         <button
                           onClick={() => handleToggleBlock(u._id)}
