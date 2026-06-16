@@ -1,11 +1,23 @@
 export const BASE_URL = import.meta.env.VITE_API_URL || "https://shinobifeast.onrender.com";
 
+const handleUnauthorized = (response) => {
+  if (response.status === 401) {
+    localStorage.removeItem("user");
+    if (window.location.pathname !== "/login" && window.location.pathname !== "/signup") {
+      window.location.href = "/";
+    }
+  }
+};
+
 const request = async (url, options = {}) => {
   const response = await fetch(`${BASE_URL}${url}`, {
     credentials: "include",
     headers: { "Content-Type": "application/json", ...(options.headers || {}) },
     ...options,
   });
+  
+  handleUnauthorized(response);
+  
   const data = await response.json();
   if (!response.ok) throw new Error(data.message || "Request failed");
   return data;
@@ -18,6 +30,9 @@ const uploadRequest = async (url, formData) => {
     credentials: "include",
     body: formData,
   });
+  
+  handleUnauthorized(response);
+  
   const data = await response.json();
   if (!response.ok) throw new Error(data.message || "Upload failed");
   return data;
