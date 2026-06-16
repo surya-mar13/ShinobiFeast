@@ -13,6 +13,9 @@ export const getAllUsers = async (req, res) => {
 };
 export const toggleBlockUser = async (req, res) => {
   try {
+    if (req.params.id === req.user.userId.toString()) {
+      return res.status(400).json({ message: "You cannot block yourself." });
+    }
     const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });

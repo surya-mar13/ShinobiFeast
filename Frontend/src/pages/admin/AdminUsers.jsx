@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { api } from "../../utils/api";
+import { useUser } from "../../context/UserContext";
 
 const ROLE_BADGE = {
   user: "bg-blue-100 text-blue-700",
@@ -9,6 +10,7 @@ const ROLE_BADGE = {
 };
 
 function AdminUsers() {
+  const { user: currentUser } = useUser();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [toggling, setToggling] = useState(null);
@@ -129,13 +131,15 @@ function AdminUsers() {
                         <option value="admin">Admin</option>
                         <option value="deliveryPartner">Delivery Partner</option>
                       </select>
-                      <button
-                        onClick={() => handleToggleBlock(u._id)}
-                        disabled={toggling === u._id}
-                        className={`text-xs px-3 py-1.5 rounded-lg font-medium transition disabled:opacity-60 ${u.isBlocked ? "bg-green-100 text-green-700 hover:bg-green-200" : "bg-red-100 text-red-700 hover:bg-red-200"}`}
-                      >
-                        {toggling === u._id ? "..." : u.isBlocked ? "Unblock" : "Block"}
-                      </button>
+                      {currentUser?._id !== u._id && (
+                        <button
+                          onClick={() => handleToggleBlock(u._id)}
+                          disabled={toggling === u._id}
+                          className={`text-xs px-3 py-1.5 rounded-lg font-medium transition disabled:opacity-60 ${u.isBlocked ? "bg-green-100 text-green-700 hover:bg-green-200" : "bg-red-100 text-red-700 hover:bg-red-200"}`}
+                        >
+                          {toggling === u._id ? "..." : u.isBlocked ? "Unblock" : "Block"}
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>

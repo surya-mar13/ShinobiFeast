@@ -165,6 +165,18 @@ Content-Type: application/json
 {
   "status": "cancelled"
 }
+
+###Admin Details
+POST http://localhost:3000/common-api/register
+Content-Type: application/json
+
+{
+  "name": "Admin User",
+  "email": "Admin@gmail.com",
+  "password": "123456",
+  "role": "admin",
+  "phone": "8888888888"
+}
 ### Login Admin
 POST http://localhost:3000/common-api/login
 Content-Type: application/json
