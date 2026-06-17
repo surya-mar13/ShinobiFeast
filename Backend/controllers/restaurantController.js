@@ -29,7 +29,7 @@ export const deleteRestaurant = async (req, res) => {
       return res.status(404).json({ message: "Restaurant not found" });
     }
 
-    if (restaurant.owner.toString() !== req.user.userId) {
+    if (restaurant.owner.toString() !== req.user.userId.toString()) {
       return res.status(403).json({
         message: "You are not authorized"
       });
@@ -53,7 +53,7 @@ export const updateRestaurant = async (req, res) => {
       return res.status(404).json({ message: "Restaurant not found" });
     }
 
-    if (restaurant.owner.toString() !== req.user.userId) {
+    if (restaurant.owner.toString() !== req.user.userId.toString()) {
       return res.status(403).json({ message: "Unauthorized" });
     }
 
