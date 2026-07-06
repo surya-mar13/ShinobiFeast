@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { api } from "../../utils/api";
 
 function AdminRestaurants() {
@@ -37,7 +37,7 @@ function AdminRestaurants() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">🏪 All Restaurants</h1>
-        <button onClick={fetchRestaurants} className="text-sm text-[#FF5C00] hover:underline font-medium">↻ Refresh</button>
+        <button onClick={fetchRestaurants} className="text-sm text-orange-600 hover:underline font-medium">↻ Refresh</button>
       </div>
 
       {loading ? (
@@ -78,11 +78,11 @@ function AdminRestaurants() {
                   </td>
                   <td className="px-4 py-3 text-gray-600">📍 {r.location}</td>
                   <td className="px-4 py-3 text-gray-600">
-                    {r.owner?.name || "—"}
+                    {r.owner?.name || "�"}
                     {r.owner?.email && <p className="text-xs text-gray-400">{r.owner.email}</p>}
                   </td>
                   <td className="px-4 py-3">
-                    <span className="font-semibold text-yellow-600">⭐ {r.rating?.toFixed(1) || "—"}</span>
+                    <span className="font-semibold text-yellow-600">? {r.rating?.toFixed(1) || "�"}</span>
                     {r.totalReviews > 0 && <p className="text-xs text-gray-400">{r.totalReviews} reviews</p>}
                   </td>
                   <td className="px-4 py-3">

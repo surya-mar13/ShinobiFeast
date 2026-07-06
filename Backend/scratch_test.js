@@ -1,26 +1,38 @@
-import Razorpay from "razorpay";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
+import Restaurant from "./models/restaurantModel.js";
+import User from "./models/userModel.js";
+
 dotenv.config();
 
-console.log("Key ID:", process.env.RAZORPAY_KEY_ID);
-console.log("Key Secret:", process.env.RAZORPAY_KEY_SECRET ? "exists" : "missing");
-
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET
-});
-
-async function test() {
+async function checkDb() {
   try {
-    const res = await razorpay.orders.create({
-      amount: 100,
-      currency: "INR",
-      receipt: "test_receipt"
+    await mongoose.connect(process.env.DB_URL);
+    console.log("Connected to DB");
+
+    const restaurantId = "6a31a8afb81870b20287889f";
+    const restaurant = await Restaurant.findById(restaurantId).populate("owner");
+    
+    if (!restaurant) {
+      console.log(`Restaurant ${restaurantId} not found.`);
+    } else {
+      console.log("\n=== Restaurant Info ===");
+      console.log("Name:", restaurant.name);
+      console.log("Owner ID:", restaurant.owner ? restaurant.owner._id : "None");
+      console.log("Owner Email:", restaurant.owner ? restaurant.owner.email : "None");
+      console.log("Owner Role:", restaurant.owner ? restaurant.owner.role : "None");
+    }
+
+    console.log("\n=== All Vendors in DB ===");
+    const vendors = await User.find({ role: "vendor" });
+    vendors.forEach(v => {
+      console.log(`- ID: ${v._id}, Email: ${v.email}, Name: ${v.name}`);
     });
-    console.log("SUCCESS:", res);
+
+    await mongoose.disconnect();
   } catch (err) {
-    console.error("ERROR:", err);
+    console.error(err);
   }
 }
 
-test();
+checkDb();

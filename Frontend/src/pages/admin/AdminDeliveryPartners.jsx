@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { api } from "../../utils/api";
 
 function AdminDeliveryPartners() {
@@ -22,7 +22,7 @@ function AdminDeliveryPartners() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">🚴 Delivery Partners</h1>
-        <button onClick={fetchPartners} className="text-sm text-[#FF5C00] hover:underline font-medium">↻ Refresh</button>
+        <button onClick={fetchPartners} className="text-sm text-orange-600 hover:underline font-medium">↻ Refresh</button>
       </div>
 
       {loading ? (
@@ -48,18 +48,18 @@ function AdminDeliveryPartners() {
               {partners.map((p) => (
                 <tr key={p._id} className="hover:bg-gray-50 transition">
                   <td className="px-4 py-3">
-                    <p className="font-medium text-gray-800">{p.user?.name || "—"}</p>
+                    <p className="font-medium text-gray-800">{p.user?.name || "�"}</p>
                     <p className="text-xs text-gray-400 font-mono">{p._id}</p>
                   </td>
                   <td className="px-4 py-3 text-gray-600">
-                    <p>{p.user?.email || "—"}</p>
+                    <p>{p.user?.email || "�"}</p>
                     {p.user?.phone && <p className="text-xs text-gray-400">{p.user.phone}</p>}
                   </td>
                   <td className="px-4 py-3">
-                    <p className="capitalize font-medium text-gray-700">{p.vehicleType || "—"}</p>
+                    <p className="capitalize font-medium text-gray-700">{p.vehicleType || "�"}</p>
                     {p.vehicleNumber && <p className="text-xs text-gray-400 font-mono">{p.vehicleNumber}</p>}
                   </td>
-                  <td className="px-4 py-3 text-gray-600">{p.currentLocation || "—"}</td>
+                  <td className="px-4 py-3 text-gray-600">{p.currentLocation || "�"}</td>
                   <td className="px-4 py-3">
                     <span className={`text-xs font-semibold px-2 py-1 rounded-full ${p.isAvailable ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
                       {p.isAvailable ? "🟢 Available" : "⚫ Unavailable"}

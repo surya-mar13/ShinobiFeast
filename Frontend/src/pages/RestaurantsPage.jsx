@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+﻿import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../utils/api";
 
@@ -85,7 +85,7 @@ function RestaurantsPage() {
             onClick={() => { setSearch(""); setCategory(""); setVariety(""); }}
             className="px-4 py-3 border rounded-xl text-sm text-gray-500 hover:bg-gray-50 transition whitespace-nowrap"
           >
-            ✕ Clear
+            ? Clear
           </button>
         )}
       </div>
@@ -117,7 +117,7 @@ function RestaurantsPage() {
                 <h3 className="font-bold text-gray-800 truncate">{r.name}</h3>
                 <p className="text-gray-500 text-sm truncate">📍 {r.location}</p>
                 <div className="flex items-center justify-between mt-1">
-                  <span className="text-yellow-500 text-sm font-semibold">⭐ {r.rating?.toFixed(1) || "New"}</span>
+                  <span className="text-yellow-500 text-sm font-semibold">? {r.rating?.toFixed(1) || "New"}</span>
                   <span className="text-xs text-gray-400">{r.totalReviews} reviews</span>
                 </div>
                 <div className="flex flex-wrap gap-1 mt-2">
@@ -139,7 +139,7 @@ function RestaurantsPage() {
         <div className="text-center mt-10">
           <button
             onClick={loadMore}
-            className="bg-[#FF5C00] text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition"
+            className="bg-orange-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-orange-600 transition"
           >
             Load More
           </button>

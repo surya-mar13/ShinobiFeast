@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { api } from "../utils/api";
 import { useUser } from "../context/UserContext";
@@ -119,7 +119,7 @@ function RestaurantDetail() {
               <p className="text-gray-500 mt-1">📍 {restaurant.location}</p>
             </div>
             <div className="flex flex-col gap-1 items-start sm:items-end">
-              <span className="text-yellow-500 font-bold text-lg">⭐ {restaurant.rating?.toFixed(1) || "New"}</span>
+              <span className="text-yellow-500 font-bold text-lg">? {restaurant.rating?.toFixed(1) || "New"}</span>
               <span className="text-gray-400 text-sm">{restaurant.totalReviews} reviews</span>
             </div>
           </div>
@@ -138,11 +138,11 @@ function RestaurantDetail() {
                 {restaurant.coupons.map((c, i) => (
                   <div key={i} className="flex items-center gap-3 bg-green-50 border border-dashed border-green-400 rounded-xl px-4 py-2.5">
                     <span className="font-extrabold text-green-700 tracking-widest text-sm font-mono">{c.code}</span>
-                    <span className="text-xs text-gray-500">—</span>
+                    <span className="text-xs text-gray-500">�</span>
                     <span className="text-sm font-semibold text-green-800">
-                      {c.discountType === "percent" ? `${c.discountValue}% off` : `₹${c.discountValue} off`}
+                      {c.discountType === "percent" ? `${c.discountValue}% off` : `?${c.discountValue} off`}
                     </span>
-                    {c.minOrder > 0 && <span className="text-xs text-gray-400">on orders above ₹{c.minOrder}</span>}
+                    {c.minOrder > 0 && <span className="text-xs text-gray-400">on orders above ?{c.minOrder}</span>}
                   </div>
                 ))}
               </div>
@@ -168,14 +168,14 @@ function RestaurantDetail() {
                 <h3 className="font-bold text-gray-800">{p.name}</h3>
                 <p className="text-gray-500 text-xs mt-1 line-clamp-2">{p.description}</p>
                 <div className="flex items-center justify-between mt-2">
-                  <span className="text-[#FF5C00] font-bold">₹{p.price}</span>
+                  <span className="text-orange-600 font-bold">?{p.price}</span>
                   <span className="text-xs text-gray-400 capitalize bg-gray-100 px-2 py-0.5 rounded-full">{p.category}</span>
                 </div>
                 {user?.role === "user" && (
                   <button
                     onClick={() => handleAddToCart(p._id)}
                     disabled={adding === p._id}
-                    className="w-full mt-3 bg-[#FF5C00] text-white py-2 rounded-lg text-sm font-semibold hover:bg-orange-600 transition disabled:opacity-60"
+                    className="w-full mt-3 bg-orange-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-orange-600 transition disabled:opacity-60"
                   >
                     {adding === p._id ? "Adding..." : "Add to Cart"}
                   </button>
@@ -183,7 +183,7 @@ function RestaurantDetail() {
                 {!user && (
                   <button
                     onClick={() => navigate("/login")}
-                    className="w-full mt-3 border-2 border-[#FF5C00] text-[#FF5C00] py-2 rounded-lg text-sm font-semibold hover:bg-orange-50 transition"
+                    className="w-full mt-3 border-2 border-orange-600 text-orange-600 py-2 rounded-lg text-sm font-semibold hover:bg-orange-50 transition"
                   >
                     Login to Order
                   </button>
@@ -215,7 +215,7 @@ function RestaurantDetail() {
             <button
               type="submit"
               disabled={reviewLoading}
-              className="mt-3 bg-[#FF5C00] text-white px-6 py-2 rounded-lg font-semibold text-sm hover:bg-orange-600 transition disabled:opacity-60"
+              className="mt-3 bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold text-sm hover:bg-orange-600 transition disabled:opacity-60"
             >
               {reviewLoading ? "Submitting..." : "Submit Review"}
             </button>

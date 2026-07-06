@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/api";
 
@@ -47,7 +47,7 @@ function Restarunts() {
         </h2>
         <button
           onClick={() => navigate("/restaurants")}
-          className="text-sm font-semibold text-[#FF5C00] hover:underline flex items-center gap-1"
+          className="text-sm font-semibold text-orange-600 hover:underline flex items-center gap-1"
         >
           See all &rsaquo;
         </button>
@@ -92,7 +92,7 @@ function Restarunts() {
                 />
                 {/* Offer badge */}
                 {res.offer && (
-                  <span className="absolute bottom-2 left-2 text-[11px] bg-[#FF5C00] text-white font-bold px-2 py-0.5 rounded-full shadow">
+                  <span className="absolute bottom-2 left-2 text-[11px] bg-orange-600 text-white font-bold px-2 py-0.5 rounded-full shadow">
                     {res.offer}
                   </span>
                 )}
@@ -117,7 +117,7 @@ function Restarunts() {
                 <p className="text-xs text-gray-500 mt-1 truncate">📍 {res.location}</p>
                 {res.variety?.length > 0 && (
                   <p className="text-[11px] text-gray-400 mt-1 truncate capitalize">
-                    {res.variety.slice(0, 3).join(" · ")}
+                    {res.variety.slice(0, 3).join(" � ")}
                   </p>
                 )}
               </div>

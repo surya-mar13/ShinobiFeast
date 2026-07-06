@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "quickbite-backend",
   "version": "1.0.0",
   "description": "backend for food delivery app",
   "main": "server.js",

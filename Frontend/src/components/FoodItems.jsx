@@ -1,10 +1,10 @@
-import { useEffect, useState, useCallback } from "react";
+﻿import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/api";
 import { useCart } from "../context/CartContext";
 import { useUser } from "../context/UserContext";
 
-// Category image map (Unsplash) — keyed on lowercase substring of category name
+// Category image map (Unsplash) � keyed on lowercase substring of category name
 const CATEGORY_IMAGES = {
   burger:   "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&auto=format&fit=crop&q=80",
   pizza:    "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=300&auto=format&fit=crop&q=80",
@@ -160,7 +160,7 @@ function FoodItems() {
                 onClick={closeModal}
                 className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-600 hover:bg-white text-lg"
               >
-                ✕
+                ?
               </button>
               {/* Veg/non-veg */}
               <span className={`absolute top-3 left-3 w-5 h-5 rounded-sm border-2 flex items-center justify-center bg-white/90 ${selectedProduct.isVeg ? "border-green-600" : "border-red-500"}`}>
@@ -201,11 +201,11 @@ function FoodItems() {
                   className="flex items-center gap-2 text-left group w-fit"
                 >
                   <span className="text-sm">🏪</span>
-                  <span className="text-sm font-semibold text-[#FF5C00] group-hover:underline transition-colors">
+                  <span className="text-sm font-semibold text-orange-600 group-hover:underline transition-colors">
                     {selectedProduct.restaurant.name}
                   </span>
                   {selectedProduct.restaurant.location && (
-                    <span className="text-xs text-gray-400">· 📍 {selectedProduct.restaurant.location.split(",")[0]}</span>
+                    <span className="text-xs text-gray-400">� 📍 {selectedProduct.restaurant.location.split(",")[0]}</span>
                   )}
                 </button>
               )}
@@ -215,18 +215,18 @@ function FoodItems() {
 
               {/* Price + qty + add to cart */}
               <div className="flex items-center justify-between gap-4">
-                <span className="text-xl font-extrabold text-[#FF5C00]">₹{selectedProduct.price}</span>
+                <span className="text-xl font-extrabold text-orange-600">?{selectedProduct.price}</span>
 
                 {/* Qty stepper */}
                 <div className="flex items-center gap-2 bg-gray-100 rounded-full px-3 py-1">
                   <button
                     onClick={() => setQty((q) => Math.max(1, q - 1))}
-                    className="w-6 h-6 flex items-center justify-center text-gray-600 hover:text-[#FF5C00] font-bold text-lg"
+                    className="w-6 h-6 flex items-center justify-center text-gray-600 hover:text-orange-600 font-bold text-lg"
                   >−</button>
                   <span className="w-5 text-center font-bold text-gray-800">{qty}</span>
                   <button
                     onClick={() => setQty((q) => q + 1)}
-                    className="w-6 h-6 flex items-center justify-center text-gray-600 hover:text-[#FF5C00] font-bold text-lg"
+                    className="w-6 h-6 flex items-center justify-center text-gray-600 hover:text-orange-600 font-bold text-lg"
                   >+</button>
                 </div>
               </div>
@@ -242,9 +242,9 @@ function FoodItems() {
               <button
                 onClick={handleAddToCart}
                 disabled={addingToCart}
-                className="w-full py-3 rounded-xl bg-[#FF5C00] text-white font-bold text-base hover:bg-orange-600 active:scale-95 transition-all disabled:opacity-60"
+                className="w-full py-3 rounded-xl bg-orange-600 text-white font-bold text-base hover:bg-orange-600 active:scale-95 transition-all disabled:opacity-60"
               >
-                {addingToCart ? "Adding…" : user?.role === "user" ? `Add to Cart · ₹${selectedProduct.price * qty}` : "Login to Add to Cart"}
+                {addingToCart ? "Adding..." : user?.role === "user" ? `Add to Cart � ?${selectedProduct.price * qty}` : "Login to Add to Cart"}
               </button>
             </div>
           </div>
@@ -256,7 +256,7 @@ function FoodItems() {
         <h2 className="text-xl sm:text-2xl font-bold text-gray-800">What's on your mind?</h2>
         <button
           onClick={() => setActiveCategory("All")}
-          className="text-sm font-semibold text-[#FF5C00] hover:underline flex items-center gap-1"
+          className="text-sm font-semibold text-orange-600 hover:underline flex items-center gap-1"
         >
           See all &rsaquo;
         </button>
@@ -286,7 +286,7 @@ function FoodItems() {
               <div
                 className={`w-20 h-20 rounded-full overflow-hidden border-4 transition-all duration-200 shadow-sm group-hover:scale-105 group-hover:shadow-md ${
                   activeCategory === cat
-                    ? "border-[#FF5C00] scale-105 shadow-md"
+                    ? "border-orange-600 scale-105 shadow-md"
                     : "border-transparent"
                 }`}
               >
@@ -299,7 +299,7 @@ function FoodItems() {
               </div>
               <span
                 className={`text-sm font-semibold transition-colors whitespace-nowrap ${
-                  activeCategory === cat ? "text-[#FF5C00]" : "text-gray-700 group-hover:text-[#FF5C00]"
+                  activeCategory === cat ? "text-orange-600" : "text-gray-700 group-hover:text-orange-600"
                 }`}
               >
                 {cat}
@@ -320,7 +320,7 @@ function FoodItems() {
             onClick={() => setActiveCategory(null)}
             className="text-sm text-gray-400 hover:text-gray-600 whitespace-nowrap"
           >
-            ✕ Close
+            ? Close
           </button>
         </div>
       )}
@@ -390,7 +390,7 @@ function FoodItems() {
                     title={`View all items from ${product.restaurant.name}`}
                   >
                     <span className="text-[11px]">🏪</span>
-                    <span className="text-[11px] font-semibold text-[#FF5C00] group-hover/rest:underline group-hover/rest:text-orange-600 truncate transition-colors">
+                    <span className="text-[11px] font-semibold text-orange-600 group-hover/rest:underline group-hover/rest:text-orange-600 truncate transition-colors">
                       {product.restaurant.name}
                     </span>
                     <span className="text-[10px] text-gray-400 group-hover/rest:text-orange-400 transition-colors ml-auto shrink-0">›</span>
@@ -404,7 +404,7 @@ function FoodItems() {
 
                 {/* Price + location */}
                 <div className="flex items-center justify-between mt-3 pt-2 border-t border-gray-50">
-                  <span className="text-sm font-extrabold text-[#FF5C00]">₹{product.price}</span>
+                  <span className="text-sm font-extrabold text-orange-600">?{product.price}</span>
                   {product.restaurant?.location && (
                     <span className="text-[10px] font-medium text-gray-400 truncate max-w-[50%] text-right">
                       📍 {product.restaurant.location.split(",")[0]}

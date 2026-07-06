@@ -1,4 +1,4 @@
-export const BASE_URL = import.meta.env.VITE_API_URL || "https://shinobifeast.onrender.com";
+﻿export const BASE_URL = import.meta.env.VITE_API_URL || "https://shinobifeast.onrender.com";
 
 const handleUnauthorized = (response) => {
   if (response.status === 401) {

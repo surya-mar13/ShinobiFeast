@@ -6,9 +6,9 @@ import { api } from "../utils/api";
 import LocationInput from "../components/LocationInput";
 
 const METHODS = [
-  { id: "COD",  label: "Cash on Delivery", icon: "💵" },
-  { id: "CARD", label: "Credit / Debit Card", icon: "💳" },
-  { id: "UPI",  label: "UPI",               icon: "📱" },
+  { id: "COD",  label: "Cash on Delivery", icon: "??" },
+  { id: "CARD", label: "Credit / Debit Card", icon: "??" },
+  { id: "UPI",  label: "UPI",               icon: "??" },
 ];
 
 const STEPS = [
@@ -37,12 +37,12 @@ function StepIndicator({ currentStep }) {
               currentStep > s.id
                 ? "bg-green-500 border-green-500 text-white"
                 : currentStep === s.id
-                ? "bg-[#FF5C00] border-[#FF5C00] text-white"
+                ? "bg-orange-600 border-orange-600 text-white"
                 : "bg-white border-gray-300 text-gray-400"
             }`}>
-              {currentStep > s.id ? "✓" : s.id}
+              {currentStep > s.id ? "?" : s.id}
             </div>
-            <span className={`text-xs mt-1 font-medium ${currentStep === s.id ? "text-[#FF5C00]" : currentStep > s.id ? "text-green-600" : "text-gray-400"}`}>
+            <span className={`text-xs mt-1 font-medium ${currentStep === s.id ? "text-orange-600" : currentStep > s.id ? "text-green-600" : "text-gray-400"}`}>
               {s.label}
             </span>
           </div>
@@ -96,9 +96,9 @@ function CartPage() {
       const sub = cartItems.reduce((s, i) => s + (i.product?.price || 0) * i.quantity, 0);
       const data = await api.post("/common-api/validate-coupon", { code, restaurantIds, subtotal: sub });
       setAppliedCoupon(data.coupon);
-      setCouponMsg(`✅ ${data.message} — saving ₹${data.coupon.discount}`);
+      setCouponMsg(`? ${data.message} — saving ?${data.coupon.discount}`);
     } catch (err) {
-      setCouponMsg(`❌ ${err.message}`);
+      setCouponMsg(`? ${err.message}`);
     } finally {
       setCouponLoading(false);
     }
@@ -106,7 +106,7 @@ function CartPage() {
 
   const removeCoupon = () => { setAppliedCoupon(null); setCouponInput(""); setCouponMsg(""); };
 
-  // ── Geolocation detect ────────────────────────────────────────────────────
+  // -- Geolocation detect ----------------------------------------------------
   const handleDetectLocation = () => {
     if (!navigator.geolocation) {
       setGeoMsg("Geolocation not supported by your browser.");
@@ -128,7 +128,7 @@ function CartPage() {
           const state = addr.state || "";
           setDeliveryAddress(data.display_name || "");
           setLocationStr([city, state].filter(Boolean).join(", "));
-          setGeoMsg("✅ Location detected — review and continue.");
+          setGeoMsg("? Location detected — review and continue.");
         } catch {
           setGeoMsg("Could not fetch address. Please enter manually.");
         } finally {
@@ -143,7 +143,7 @@ function CartPage() {
     );
   };
 
-  // ── Place order ────────────────────────────────────────────────────────────
+  // -- Place order ------------------------------------------------------------
   const handlePlaceOrder = async () => {
     setCheckoutLoading(true);
     setMsg({ text: "", ok: false });
@@ -177,9 +177,9 @@ function CartPage() {
           amount: razorpayOrder.amount,
           currency: razorpayOrder.currency,
           order_id: razorpayOrder.id,
-          name: "ShinobiFeast",
+          name: "QuickBite",
           description: `Order #${orderId}`,
-          theme: { color: "#FF5C00" },
+          theme: { color: "#E9490A" },
           handler: async (response) => {
             try {
               await api.post("/payment-api/verify", {
@@ -219,13 +219,13 @@ function CartPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">🛒 Checkout</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">?? Checkout</h1>
 
       {items.length === 0 && step === 1 ? (
         <div className="flex flex-col items-center justify-center py-20 gap-4">
-          <span className="text-6xl">🛒</span>
+          <span className="text-6xl">??</span>
           <p className="text-gray-500 text-lg">Your cart is empty</p>
-          <Link to="/restaurants" className="bg-[#FF5C00] text-white px-6 py-2.5 rounded-full font-semibold hover:bg-orange-600 transition">
+          <Link to="/restaurants" className="bg-orange-600 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-orange-600 transition">
             Browse Restaurants
           </Link>
         </div>
@@ -233,7 +233,7 @@ function CartPage() {
         <>
           <StepIndicator currentStep={step} />
 
-          {/* ── STEP 1: CART ─────────────────────────────────────────────── */}
+          {/* -- STEP 1: CART ----------------------------------------------- */}
           {step === 1 && (
             <div className="flex flex-col gap-4">
               {items.map((item) => {
@@ -248,11 +248,11 @@ function CartPage() {
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-gray-800 truncate">{p?.name}</h3>
                       <p className="text-gray-500 text-xs truncate">{p?.description}</p>
-                      <p className="text-[#FF5C00] font-bold mt-1">₹{p?.price}</p>
+                      <p className="text-orange-600 font-bold mt-1">?{p?.price}</p>
                     </div>
                     <div className="flex flex-col items-center gap-2 shrink-0">
                       <div className="flex items-center border rounded-lg overflow-hidden">
-                        <button onClick={() => item.quantity > 1 ? updateQuantity(p._id, item.quantity - 1) : removeFromCart(p._id)} className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-lg font-bold">−</button>
+                        <button onClick={() => item.quantity > 1 ? updateQuantity(p._id, item.quantity - 1) : removeFromCart(p._id)} className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-lg font-bold">-</button>
                         <span className="px-3 text-sm font-semibold">{item.quantity}</span>
                         <button onClick={() => updateQuantity(p._id, item.quantity + 1)} className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-lg font-bold">+</button>
                       </div>
@@ -264,15 +264,15 @@ function CartPage() {
 
               {/* Coupon code */}
               <div className="bg-white border rounded-xl px-4 py-4 shadow-sm">
-                <p className="text-sm font-semibold text-gray-700 mb-2">🎟️ Have a coupon?</p>
+                <p className="text-sm font-semibold text-gray-700 mb-2">??? Have a coupon?</p>
                 {appliedCoupon ? (
                   <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-3 py-2">
                     <div>
                       <span className="font-bold text-green-700 tracking-wide font-mono">{appliedCoupon.code}</span>
                       <span className="text-xs text-green-600 ml-2">from {appliedCoupon.restaurantName}</span>
-                      <p className="text-green-700 font-semibold text-sm">−₹{appliedCoupon.discount} saved!</p>
+                      <p className="text-green-700 font-semibold text-sm">-?{appliedCoupon.discount} saved!</p>
                     </div>
-                    <button onClick={removeCoupon} className="text-red-400 hover:text-red-600 font-bold text-lg">✕</button>
+                    <button onClick={removeCoupon} className="text-red-400 hover:text-red-600 font-bold text-lg">?</button>
                   </div>
                 ) : (
                   <div className="flex gap-2">
@@ -283,64 +283,64 @@ function CartPage() {
                       placeholder="Enter coupon code"
                       className="flex-1 p-2.5 border rounded-lg text-sm font-mono uppercase outline-none focus:ring-2 focus:ring-orange-300"
                     />
-                    <button onClick={handleApplyCoupon} disabled={couponLoading || !couponInput.trim()} className="px-4 py-2.5 bg-[#FF5C00] text-white text-sm font-semibold rounded-lg hover:bg-orange-600 transition disabled:opacity-60">
+                    <button onClick={handleApplyCoupon} disabled={couponLoading || !couponInput.trim()} className="px-4 py-2.5 bg-orange-600 text-white text-sm font-semibold rounded-lg hover:bg-orange-600 transition disabled:opacity-60">
                       {couponLoading ? "..." : "Apply"}
                     </button>
                   </div>
                 )}
-                {couponMsg && <p className={`text-xs mt-1.5 font-medium ${couponMsg.startsWith("✅") ? "text-green-600" : "text-red-500"}`}>{couponMsg}</p>}
+                {couponMsg && <p className={`text-xs mt-1.5 font-medium ${couponMsg.startsWith("?") ? "text-green-600" : "text-red-500"}`}>{couponMsg}</p>}
               </div>
 
               {/* Subtotal / discount / total */}
               <div className="bg-white border rounded-xl px-5 py-4 shadow-sm flex flex-col gap-1.5 text-sm text-gray-600">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span>₹{subtotal}</span>
+                  <span>?{subtotal}</span>
                 </div>
                 {discountAmount > 0 && (
                   <div className="flex justify-between text-green-600 font-semibold">
-                    <span>�️ Coupon ({appliedCoupon?.code})</span>
-                    <span>−₹{discountAmount}</span>
+                    <span>?? Coupon ({appliedCoupon?.code})</span>
+                    <span>-?{discountAmount}</span>
                   </div>
                 )}
                 <div className="flex justify-between font-bold text-gray-800 text-base border-t pt-2 mt-1">
                   <span>Total</span>
-                  <span>₹{total}</span>
+                  <span>?{total}</span>
                 </div>
               </div>
 
               <button
                 onClick={() => setStep(2)}
-                className="w-full bg-[#FF5C00] text-white py-3.5 rounded-xl font-bold hover:bg-orange-600 transition text-base"
+                className="w-full bg-orange-600 text-white py-3.5 rounded-xl font-bold hover:bg-orange-600 transition text-base"
               >
-                Proceed to Address →
+                Proceed to Address ?
               </button>
-              <Link to="/restaurants" className="block text-center text-[#FF5C00] text-sm font-medium hover:underline">
-                ← Continue Shopping
+              <Link to="/restaurants" className="block text-center text-orange-600 text-sm font-medium hover:underline">
+                ? Continue Shopping
               </Link>
             </div>
           )}
 
-          {/* ── STEP 2: ADDRESS & LOCATION ───────────────────────────────── */}
+          {/* -- STEP 2: ADDRESS & LOCATION --------------------------------- */}
           {step === 2 && (
             <div className="bg-white border rounded-2xl shadow-sm p-6 flex flex-col gap-4">
-              <h2 className="text-lg font-bold text-gray-800">📍 Delivery Address</h2>
+              <h2 className="text-lg font-bold text-gray-800">?? Delivery Address</h2>
 
               {/* Geo-detect button */}
               <button
                 type="button"
                 onClick={handleDetectLocation}
                 disabled={geoLoading}
-                className="flex items-center justify-center gap-2 w-full border-2 border-dashed border-orange-300 text-[#FF5C00] py-3 rounded-xl text-sm font-semibold hover:bg-orange-50 transition disabled:opacity-60"
+                className="flex items-center justify-center gap-2 w-full border-2 border-dashed border-orange-300 text-orange-600 py-3 rounded-xl text-sm font-semibold hover:bg-orange-50 transition disabled:opacity-60"
               >
                 {geoLoading ? (
-                  <><span className="animate-spin">⏳</span> Detecting location...</>
+                  <><span className="animate-spin">?</span> Detecting location...</>
                 ) : (
-                  <><span>📡</span> Detect my location automatically</>
+                  <><span>??</span> Detect my location automatically</>
                 )}
               </button>
               {geoMsg && (
-                <p className={`text-xs font-medium -mt-2 ${geoMsg.startsWith("✅") ? "text-green-600" : "text-red-500"}`}>{geoMsg}</p>
+                <p className={`text-xs font-medium -mt-2 ${geoMsg.startsWith("?") ? "text-green-600" : "text-red-500"}`}>{geoMsg}</p>
               )}
 
               <p className="text-xs text-gray-400 text-center -mt-2">— or enter manually —</p>
@@ -349,14 +349,14 @@ function CartPage() {
               <div>
                 <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 block">Save As</label>
                 <div className="flex gap-2">
-                  {[{ id: "home", icon: "🏠", label: "Home" }, { id: "work", icon: "💼", label: "Work" }, { id: "other", icon: "📌", label: "Other" }].map((t) => (
+                  {[{ id: "home", icon: "??", label: "Home" }, { id: "work", icon: "??", label: "Work" }, { id: "other", icon: "??", label: "Other" }].map((t) => (
                     <button
                       key={t.id}
                       type="button"
                       onClick={() => setAddressType(t.id)}
                       className={`flex-1 flex flex-col items-center gap-1 py-2.5 rounded-xl border-2 text-xs font-semibold transition ${
                         addressType === t.id
-                          ? "border-[#FF5C00] bg-orange-50 text-[#FF5C00]"
+                          ? "border-orange-600 bg-orange-50 text-orange-600"
                           : "border-gray-200 text-gray-500 hover:border-orange-200"
                       }`}
                     >
@@ -402,7 +402,7 @@ function CartPage() {
                   onClick={() => setStep(1)}
                   className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition text-sm"
                 >
-                  ← Back
+                  ? Back
                 </button>
                 <button
                   onClick={() => {
@@ -417,45 +417,45 @@ function CartPage() {
                     setGeoMsg("");
                     setStep(3);
                   }}
-                  className="flex-1 bg-[#FF5C00] text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition text-sm"
+                  className="flex-1 bg-orange-600 text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition text-sm"
                 >
-                  Continue to Payment →
+                  Continue to Payment ?
                 </button>
               </div>
             </div>
           )}
 
-          {/* ── STEP 3: PAYMENT ──────────────────────────────────────────── */}
+          {/* -- STEP 3: PAYMENT -------------------------------------------- */}
           {step === 3 && (
             <div className="bg-white border rounded-2xl shadow-sm p-6 flex flex-col gap-5">
-              <h2 className="text-lg font-bold text-gray-800">💳 Payment</h2>
+              <h2 className="text-lg font-bold text-gray-800">?? Payment</h2>
 
               {/* Mini order summary */}
               <div className="bg-gray-50 rounded-xl px-4 py-3 flex flex-col gap-1.5 text-sm text-gray-600">
                 {items.map((item) => (
                   <div key={item._id} className="flex justify-between">
                     <span className="truncate mr-2">{item.product?.name} × {item.quantity}</span>
-                    <span className="font-medium text-gray-700">₹{(item.product?.price || 0) * item.quantity}</span>
+                    <span className="font-medium text-gray-700">?{(item.product?.price || 0) * item.quantity}</span>
                   </div>
                 ))}
                 {discountAmount > 0 && (
                   <div className="flex justify-between text-green-600 font-semibold">
-                    <span>�️ Coupon ({appliedCoupon?.code})</span>
-                    <span>−₹{discountAmount}</span>
+                    <span>?? Coupon ({appliedCoupon?.code})</span>
+                    <span>-?{discountAmount}</span>
                   </div>
                 )}
                 <div className="border-t mt-2 pt-2 flex justify-between font-bold text-gray-800">
                   <span>Total</span>
-                  <span>₹{total}</span>
+                  <span>?{total}</span>
                 </div>
               </div>
 
               {/* Delivery address summary */}
               <div className="flex items-start gap-2 text-sm text-gray-600">
-                <span className="text-base mt-0.5">📍</span>
+                <span className="text-base mt-0.5">??</span>
                 <div>
-                  <span className="font-semibold text-[#FF5C00] mr-1">
-                    {addressType === "home" ? "🏠 Home" : addressType === "work" ? "💼 Work" : `📌 ${otherLabel || "Other"}`}
+                  <span className="font-semibold text-orange-600 mr-1">
+                    {addressType === "home" ? "?? Home" : addressType === "work" ? "?? Work" : `?? ${otherLabel || "Other"}`}
                   </span>
                   <span className="leading-snug">{[deliveryAddress, locationStr].filter(Boolean).join(", ")}</span>
                 </div>
@@ -469,10 +469,10 @@ function CartPage() {
                     <label
                       key={m.id}
                       className={`flex items-center gap-3 p-3 border rounded-xl cursor-pointer transition ${
-                        method === m.id ? "border-[#FF5C00] bg-orange-50" : "border-gray-200 hover:border-gray-300"
+                        method === m.id ? "border-orange-600 bg-orange-50" : "border-gray-200 hover:border-gray-300"
                       }`}
                     >
-                      <input type="radio" name="paymentMethod" value={m.id} checked={method === m.id} onChange={() => setMethod(m.id)} className="accent-[#FF5C00]" />
+                      <input type="radio" name="paymentMethod" value={m.id} checked={method === m.id} onChange={() => setMethod(m.id)} className="accent-orange-600" />
                       <span className="text-lg">{m.icon}</span>
                       <span className="text-sm font-medium text-gray-700">{m.label}</span>
                     </label>
@@ -484,16 +484,16 @@ function CartPage() {
                   <div className="mt-3 border rounded-xl p-3 bg-gray-50 flex flex-col gap-2">
                     <p className="text-xs font-semibold text-gray-500">How will you pay at the door?</p>
                     {[
-                      { id: "cash", label: "Cash", icon: "💵" },
-                      { id: "upi",  label: "UPI (agent shows QR)", icon: "📱" },
+                      { id: "cash", label: "Cash", icon: "??" },
+                      { id: "upi",  label: "UPI (agent shows QR)", icon: "??" },
                     ].map((opt) => (
                       <label
                         key={opt.id}
                         className={`flex items-center gap-3 p-2.5 border rounded-lg cursor-pointer transition ${
-                          codPreference === opt.id ? "border-[#FF5C00] bg-orange-50" : "border-gray-200 hover:border-gray-300"
+                          codPreference === opt.id ? "border-orange-600 bg-orange-50" : "border-gray-200 hover:border-gray-300"
                         }`}
                       >
-                        <input type="radio" name="codPref" value={opt.id} checked={codPreference === opt.id} onChange={() => setCodPreference(opt.id)} className="accent-[#FF5C00]" />
+                        <input type="radio" name="codPref" value={opt.id} checked={codPreference === opt.id} onChange={() => setCodPreference(opt.id)} className="accent-orange-600" />
                         <span>{opt.icon}</span>
                         <span className="text-sm font-medium text-gray-700">{opt.label}</span>
                       </label>
@@ -502,7 +502,7 @@ function CartPage() {
                 )}
 
                 {method !== "COD" && (
-                  <p className="text-xs text-gray-400 mt-3">🔒 Card / UPI details are entered securely in the Razorpay popup — never stored by us.</p>
+                  <p className="text-xs text-gray-400 mt-3">?? Card / UPI details are entered securely in the Razorpay popup — never stored by us.</p>
                 )}
               </div>
 
@@ -516,18 +516,18 @@ function CartPage() {
                   disabled={checkoutLoading}
                   className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition text-sm disabled:opacity-60"
                 >
-                  ← Back
+                  ? Back
                 </button>
                 <button
                   onClick={handlePlaceOrder}
                   disabled={checkoutLoading}
-                  className="flex-1 bg-[#FF5C00] text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition disabled:opacity-60 text-sm"
+                  className="flex-1 bg-orange-600 text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition disabled:opacity-60 text-sm"
                 >
                   {checkoutLoading
                     ? "Processing..."
                     : method === "COD"
                     ? "Place Order (COD)"
-                    : `Pay ₹${total} via Razorpay`}                </button>
+                    : `Pay ?${total} via Razorpay`}                </button>
               </div>
             </div>
           )}

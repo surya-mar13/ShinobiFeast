@@ -5,7 +5,7 @@ const STATUS_COLORS = {
   pending: "bg-yellow-100 text-yellow-700",
   accepted: "bg-blue-100 text-blue-700",
   preparing: "bg-orange-100 text-orange-700",
-  "out-for-delivery": "bg-purple-100 text-purple-700",
+  "out-for-delivery": "bg-teal-100 text-teal-700",
   delivered: "bg-green-100 text-green-700",
   cancelled: "bg-red-100 text-red-700",
 };
@@ -22,11 +22,11 @@ const STATUS_LABELS = {
 const getStatusLabel = (status) => STATUS_LABELS[status] || status;
 
 const TIMELINE_STEPS = [
-  { key: "pending",          label: "Order Placed",    icon: "🛒" },
-  { key: "accepted",         label: "Accepted",        icon: "✅" },
-  { key: "preparing",        label: "Prepared",        icon: "🍳" },
-  { key: "out-for-delivery", label: "On the Way",      icon: "🚴" },
-  { key: "delivered",        label: "Delivered",       icon: "🏠" },
+  { key: "pending",          label: "Order Placed",    icon: "??" },
+  { key: "accepted",         label: "Accepted",        icon: "?" },
+  { key: "preparing",        label: "Prepared",        icon: "??" },
+  { key: "out-for-delivery", label: "On the Way",      icon: "??" },
+  { key: "delivered",        label: "Delivered",       icon: "??" },
 ];
 const STEP_ORDER = TIMELINE_STEPS.map((s) => s.key);
 
@@ -35,7 +35,7 @@ function StatusTimeline({ status }) {
     return (
       <div className="px-5 pb-4">
         <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
-          <span className="text-base">❌</span>
+          <span className="text-base">?</span>
           <span className="text-sm font-semibold text-red-600">Order Cancelled</span>
         </div>
       </div>
@@ -54,13 +54,13 @@ function StatusTimeline({ status }) {
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm border-2 transition-all ${
                   done
                     ? active
-                      ? "border-[#FF5C00] bg-orange-50 text-[#FF5C00]"
+                      ? "border-orange-600 bg-orange-50 text-orange-600"
                       : "border-green-400 bg-green-50 text-green-600"
                     : "border-gray-200 bg-gray-50 text-gray-300"
                 }`}>
                   {step.icon}
                 </div>
-                <span className={`text-xs mt-1 text-center leading-tight max-w-14 ${done ? (active ? "text-[#FF5C00] font-semibold" : "text-green-600 font-medium") : "text-gray-300"}`}>
+                <span className={`text-xs mt-1 text-center leading-tight max-w-14 ${done ? (active ? "text-orange-600 font-semibold" : "text-green-600 font-medium") : "text-gray-300"}`}>
                   {step.label}
                 </span>
               </div>
@@ -83,9 +83,9 @@ const getPaymentLabel = (order) => {
 };
 
 const METHODS = [
-  { id: "COD",  label: "Cash on Delivery", icon: "💵" },
-  { id: "CARD", label: "Credit / Debit Card", icon: "💳" },
-  { id: "UPI",  label: "UPI", icon: "📱" },
+  { id: "COD",  label: "Cash on Delivery", icon: "??" },
+  { id: "CARD", label: "Credit / Debit Card", icon: "??" },
+  { id: "UPI",  label: "UPI", icon: "??" },
 ];
 
 // Load Razorpay checkout script once
@@ -108,14 +108,14 @@ function PayModal({ order, onClose, onPaid }) {
     setLoading(true);
     setErr("");
     try {
-      // ── COD: simple backend call, no Razorpay involved ──────────────────
+      // -- COD: simple backend call, no Razorpay involved ------------------
       if (method === "COD") {
         await api.post("/payment-api/pay", { orderId: order._id, method: "COD" });
         onPaid();
         return;
       }
 
-      // ── CARD / UPI: go through Razorpay Checkout ─────────────────────────
+      // -- CARD / UPI: go through Razorpay Checkout -------------------------
       const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
       if (!razorpayKey) {
         throw new Error("Razorpay key is missing. Add VITE_RAZORPAY_KEY_ID in Frontend/.env and restart frontend.");
@@ -134,9 +134,9 @@ function PayModal({ order, onClose, onPaid }) {
           amount: razorpayOrder.amount,          // in paise
           currency: razorpayOrder.currency,
           order_id: razorpayOrder.id,
-          name: "ShinobiFeast",
+          name: "QuickBite",
           description: `Order #${order._id}`,
-          theme: { color: "#FF5C00" },
+          theme: { color: "#E9490A" },
           handler: async (response) => {
             try {
               // 3. Verify signature on the backend
@@ -175,16 +175,16 @@ function PayModal({ order, onClose, onPaid }) {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-gray-800">💳 Pay Now</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl font-bold">✕</button>
+          <h2 className="text-lg font-bold text-gray-800">?? Pay Now</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl font-bold">?</button>
         </div>
-        <p className="text-sm text-gray-500">Order total: <span className="font-bold text-gray-800">₹{order.totalAmount}</span></p>
+        <p className="text-sm text-gray-500">Order total: <span className="font-bold text-gray-800">?{order.totalAmount}</span></p>
 
         {/* Method selector */}
         <div className="flex flex-col gap-2">
           {METHODS.map((m) => (
-            <label key={m.id} className={`flex items-center gap-3 p-3 border rounded-xl cursor-pointer transition ${method === m.id ? "border-[#FF5C00] bg-orange-50" : "border-gray-200 hover:border-gray-300"}`}>
-              <input type="radio" name="payModal" value={m.id} checked={method === m.id} onChange={() => setMethod(m.id)} className="accent-[#FF5C00]" />
+            <label key={m.id} className={`flex items-center gap-3 p-3 border rounded-xl cursor-pointer transition ${method === m.id ? "border-orange-600 bg-orange-50" : "border-gray-200 hover:border-gray-300"}`}>
+              <input type="radio" name="payModal" value={m.id} checked={method === m.id} onChange={() => setMethod(m.id)} className="accent-orange-600" />
               <span>{m.icon}</span>
               <span className="text-sm font-medium text-gray-700">{m.label}</span>
             </label>
@@ -193,14 +193,14 @@ function PayModal({ order, onClose, onPaid }) {
 
         {method !== "COD" && (
           <p className="text-xs text-gray-400 -mt-1">
-            🔒 Your card / UPI details are entered securely in the Razorpay popup — never stored by us.
+            ?? Your card / UPI details are entered securely in the Razorpay popup — never stored by us.
           </p>
         )}
 
         {err && <p className="text-red-500 text-sm font-medium">{err}</p>}
 
-        <button onClick={handlePay} disabled={loading} className="w-full bg-[#FF5C00] text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition disabled:opacity-60">
-          {loading ? "Processing..." : method === "COD" ? "Confirm COD" : `Pay ₹${order.totalAmount} via Razorpay`}
+        <button onClick={handlePay} disabled={loading} className="w-full bg-orange-600 text-white py-3 rounded-xl font-bold hover:bg-orange-600 transition disabled:opacity-60">
+          {loading ? "Processing..." : method === "COD" ? "Confirm COD" : `Pay ?${order.totalAmount} via Razorpay`}
         </button>
       </div>
     </div>
@@ -279,11 +279,11 @@ function OrdersPage() {
       )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">📦 My Orders</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">?? My Orders</h1>
 
         {orders.length === 0 ? (
           <div className="flex flex-col items-center py-20 gap-4">
-            <span className="text-6xl">📦</span>
+            <span className="text-6xl">??</span>
             <p className="text-gray-500 text-lg">No orders yet</p>
           </div>
         ) : (
@@ -301,7 +301,7 @@ function OrdersPage() {
                       {getStatusLabel(order.status)}
                     </span>
                     <span className={`text-xs font-semibold px-3 py-1 rounded-full capitalize ${order.paymentStatus === "paid" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}`}>
-                      💳 {getPaymentLabel(order)}
+                      ?? {getPaymentLabel(order)}
                     </span>
                   </div>
                 </div>
@@ -312,7 +312,7 @@ function OrdersPage() {
                 {/* Delivery Address */}
                 {order.deliveryAddress && (
                   <div className="px-5 pb-3 flex items-start gap-2">
-                    <span className="text-base mt-0.5">📍</span>
+                    <span className="text-base mt-0.5">??</span>
                     <div>
                       <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Delivery Address</p>
                       <p className="text-sm text-gray-700 mt-0.5">{order.deliveryAddress}</p>
@@ -322,15 +322,15 @@ function OrdersPage() {
 
                 {/* Delivery OTP — show when order is out-for-delivery */}
                 {order.status === "out-for-delivery" && order.deliveryOtp && !order.otpVerified && (
-                  <div className="mx-5 mb-4 flex flex-col items-center gap-1 bg-orange-50 border-2 border-dashed border-[#FF5C00] rounded-2xl px-5 py-4">
+                  <div className="mx-5 mb-4 flex flex-col items-center gap-1 bg-orange-50 border-2 border-dashed border-orange-600 rounded-2xl px-5 py-4">
                     <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Delivery OTP</p>
-                    <p className="text-3xl font-extrabold tracking-[0.3em] text-[#FF5C00]">{order.deliveryOtp}</p>
+                    <p className="text-3xl font-extrabold tracking-[0.3em] text-orange-600">{order.deliveryOtp}</p>
                     <p className="text-xs text-gray-500 text-center">Share this code with your delivery partner to confirm handover</p>
                   </div>
                 )}
                 {order.otpVerified && order.status === "out-for-delivery" && (
                   <div className="mx-5 mb-4 flex items-center gap-2 bg-green-50 border border-green-200 rounded-xl px-4 py-2">
-                    <span className="text-base">✅</span>
+                    <span className="text-base">?</span>
                     <span className="text-sm font-semibold text-green-700">OTP verified — delivery in progress</span>
                   </div>
                 )}
@@ -341,13 +341,13 @@ function OrdersPage() {
                     {order.items.map((item, i) => (
                       <div key={i} className="flex justify-between text-sm">
                         <span className="text-gray-700">{item.product?.name || "Product"} <span className="text-gray-400">× {item.quantity}</span></span>
-                        <span className="font-medium text-gray-800">₹{item.priceAtPurchase * item.quantity}</span>
+                        <span className="font-medium text-gray-800">?{item.priceAtPurchase * item.quantity}</span>
                       </div>
                     ))}
                   </div>
                   <div className="border-t mt-3 pt-3 flex justify-between font-bold text-gray-800">
                     <span>Total</span>
-                    <span>₹{order.totalAmount}</span>
+                    <span>?{order.totalAmount}</span>
                   </div>
                 </div>
 
@@ -358,9 +358,9 @@ function OrdersPage() {
                     {order.paymentStatus === "pending" && order.status === "pending" && order.paymentMethod !== "COD" && (
                       <button
                         onClick={() => setPayOrder(order)}
-                        className="text-sm bg-[#FF5C00] text-white px-4 py-1.5 rounded-lg hover:bg-orange-600 transition font-semibold"
+                        className="text-sm bg-orange-600 text-white px-4 py-1.5 rounded-lg hover:bg-orange-600 transition font-semibold"
                       >
-                        💳 Pay Now
+                        ?? Pay Now
                       </button>
                     )}
                     {/* Cancel */}

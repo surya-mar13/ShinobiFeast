@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import { api } from "../../utils/api";
 
 const EMPTY_FORM = {
@@ -126,7 +126,7 @@ function VendorRestaurants() {
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">🏪 My Restaurants</h1>
         <button
           onClick={() => { setForm(EMPTY_FORM); setEditId(null); setImageFile(null); setImagePreview(""); setShowForm(true); }}
-          className="bg-[#FF5C00] text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-orange-600 transition"
+          className="bg-orange-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-orange-600 transition"
         >
           + Add Restaurant
         </button>
@@ -148,7 +148,7 @@ function VendorRestaurants() {
               {imagePreview && <img src={imagePreview} alt="preview" className="w-12 h-12 rounded-lg object-cover border shrink-0" />}
               <div className="flex-1">
                 <label className="block text-xs text-gray-500 mb-1">Restaurant Image</label>
-                <input ref={imgRef} type="file" accept="image/*" onChange={handleImageChange} className="w-full text-sm text-gray-600 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-[#FF5C00] hover:file:bg-orange-100 cursor-pointer" />
+                <input ref={imgRef} type="file" accept="image/*" onChange={handleImageChange} className="w-full text-sm text-gray-600 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-orange-600 hover:file:bg-orange-100 cursor-pointer" />
               </div>
             </div>
           </div>
@@ -186,10 +186,10 @@ function VendorRestaurants() {
                   <div key={i} className="flex items-center justify-between bg-orange-50 border border-orange-200 rounded-lg px-3 py-2 text-sm">
                     <span className="font-bold text-orange-700 tracking-wide font-mono">{c.code}</span>
                     <span className="text-gray-600">
-                      {c.discountType === "percent" ? `${c.discountValue}% off` : `₹${c.discountValue} off`}
-                      {c.minOrder > 0 && <span className="text-gray-400 ml-1">(min ₹{c.minOrder})</span>}
+                      {c.discountType === "percent" ? `${c.discountValue}% off` : `?${c.discountValue} off`}
+                      {c.minOrder > 0 && <span className="text-gray-400 ml-1">(min ?{c.minOrder})</span>}
                     </span>
-                    <button type="button" onClick={() => removeCoupon(i)} className="text-red-400 hover:text-red-600 font-bold ml-2">✕</button>
+                    <button type="button" onClick={() => removeCoupon(i)} className="text-red-400 hover:text-red-600 font-bold ml-2">?</button>
                   </div>
                 ))}
               </div>
@@ -198,12 +198,12 @@ function VendorRestaurants() {
               <input value={newCoupon.code} onChange={(e) => setNewCoupon({ ...newCoupon, code: e.target.value.toUpperCase() })} placeholder="CODE" className="p-2.5 border rounded-lg outline-none focus:ring-2 focus:ring-orange-300 text-sm font-mono uppercase" />
               <select value={newCoupon.discountType} onChange={(e) => setNewCoupon({ ...newCoupon, discountType: e.target.value })} className="p-2.5 border rounded-lg outline-none focus:ring-2 focus:ring-orange-300 text-sm">
                 <option value="percent">% Off</option>
-                <option value="flat">₹ Flat Off</option>
+                <option value="flat">? Flat Off</option>
               </select>
               <input type="number" min="1" value={newCoupon.discountValue} onChange={(e) => setNewCoupon({ ...newCoupon, discountValue: e.target.value })} placeholder={newCoupon.discountType === "percent" ? "e.g. 20" : "e.g. 100"} className="p-2.5 border rounded-lg outline-none focus:ring-2 focus:ring-orange-300 text-sm" />
-              <input type="number" min="0" value={newCoupon.minOrder} onChange={(e) => setNewCoupon({ ...newCoupon, minOrder: e.target.value })} placeholder="Min order ₹" className="p-2.5 border rounded-lg outline-none focus:ring-2 focus:ring-orange-300 text-sm" />
+              <input type="number" min="0" value={newCoupon.minOrder} onChange={(e) => setNewCoupon({ ...newCoupon, minOrder: e.target.value })} placeholder="Min order ?" className="p-2.5 border rounded-lg outline-none focus:ring-2 focus:ring-orange-300 text-sm" />
             </div>
-            <button type="button" onClick={addCoupon} disabled={!newCoupon.code.trim() || !newCoupon.discountValue} className="mt-2 text-sm font-semibold text-[#FF5C00] border border-orange-300 px-4 py-1.5 rounded-lg hover:bg-orange-50 transition disabled:opacity-40">
+            <button type="button" onClick={addCoupon} disabled={!newCoupon.code.trim() || !newCoupon.discountValue} className="mt-2 text-sm font-semibold text-orange-600 border border-orange-300 px-4 py-1.5 rounded-lg hover:bg-orange-50 transition disabled:opacity-40">
               + Add Coupon
             </button>
           </div>
@@ -211,7 +211,7 @@ function VendorRestaurants() {
           {msg.text && <p className={`text-sm mt-3 ${msg.type === "success" ? "text-green-600" : "text-red-500"}`}>{msg.text}</p>}
 
           <div className="flex gap-3 mt-5">
-            <button type="submit" disabled={saving} className="bg-[#FF5C00] text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-orange-600 transition disabled:opacity-60">
+            <button type="submit" disabled={saving} className="bg-orange-600 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-orange-600 transition disabled:opacity-60">
               {saving ? "Saving..." : editId ? "Update" : "Create"}
             </button>
             <button type="button" onClick={() => { setShowForm(false); setEditId(null); setForm(EMPTY_FORM); setImageFile(null); setImagePreview(""); }} className="border px-6 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition">

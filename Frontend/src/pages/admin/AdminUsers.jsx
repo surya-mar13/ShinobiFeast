@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { api } from "../../utils/api";
 import { useUser } from "../../context/UserContext";
 
@@ -6,7 +6,7 @@ const ROLE_BADGE = {
   user: "bg-blue-100 text-blue-700",
   vendor: "bg-green-100 text-green-700",
   admin: "bg-red-100 text-red-700",
-  deliveryPartner: "bg-purple-100 text-purple-700",
+  deliveryPartner: "bg-teal-100 text-teal-700",
 };
 
 function AdminUsers() {

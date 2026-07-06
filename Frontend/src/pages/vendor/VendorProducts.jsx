@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import { api } from "../../utils/api";
 
 const EMPTY_FORM = { name: "", description: "", price: "", category: "", restaurant: "", isVeg: false };
@@ -101,7 +101,7 @@ function VendorProducts() {
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">🍕 My Products</h1>
         <button
           onClick={() => { setForm(EMPTY_FORM); setEditId(null); setShowForm(true); }}
-          className="bg-[#FF5C00] text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-orange-600 transition"
+          className="bg-orange-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-orange-600 transition"
         >
           + Add Product
         </button>
@@ -113,7 +113,7 @@ function VendorProducts() {
           <h2 className="font-bold text-lg text-gray-700 mb-4">{editId ? "Edit Product" : "New Product"}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Product Name" className="p-3 border rounded-lg outline-none focus:ring-2 focus:ring-orange-300 text-sm" />
-            <input required type="number" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} placeholder="Price (₹)" className="p-3 border rounded-lg outline-none focus:ring-2 focus:ring-orange-300 text-sm" />
+            <input required type="number" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} placeholder="Price (?)" className="p-3 border rounded-lg outline-none focus:ring-2 focus:ring-orange-300 text-sm" />
             <select required value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="p-3 border rounded-lg outline-none focus:ring-2 focus:ring-orange-300 text-sm text-gray-700">
               <option value="">Select Category</option>
               {FOOD_CATEGORIES.map((cat) => (
@@ -125,7 +125,7 @@ function VendorProducts() {
               {imagePreview && <img src={imagePreview} alt="preview" className="w-12 h-12 rounded-lg object-cover border shrink-0" />}
               <div className="flex-1">
                 <label className="block text-xs text-gray-500 mb-1">Product Image</label>
-                <input ref={imgRef} type="file" accept="image/*" onChange={handleImageChange} className="w-full text-sm text-gray-600 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-[#FF5C00] hover:file:bg-orange-100 cursor-pointer" />
+                <input ref={imgRef} type="file" accept="image/*" onChange={handleImageChange} className="w-full text-sm text-gray-600 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-orange-600 hover:file:bg-orange-100 cursor-pointer" />
               </div>
             </div>
             <textarea required value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Description" rows={2} className="p-3 border rounded-lg outline-none focus:ring-2 focus:ring-orange-300 text-sm sm:col-span-2 resize-none" />
@@ -149,7 +149,7 @@ function VendorProducts() {
           </div>
           {msg.text && <p className={`text-sm mt-3 ${msg.type === "success" ? "text-green-600" : "text-red-500"}`}>{msg.text}</p>}
           <div className="flex gap-3 mt-5">
-            <button type="submit" disabled={saving} className="bg-[#FF5C00] text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-orange-600 transition disabled:opacity-60">
+            <button type="submit" disabled={saving} className="bg-orange-600 text-white px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-orange-600 transition disabled:opacity-60">
               {saving ? "Saving..." : editId ? "Update" : "Add"}
             </button>
             <button type="button" onClick={() => { setShowForm(false); setEditId(null); setForm(EMPTY_FORM); setImageFile(null); setImagePreview(""); }} className="border px-6 py-2.5 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition">
@@ -189,8 +189,8 @@ function VendorProducts() {
                     </div>
                   </td>
                   <td className="px-4 py-3 capitalize text-gray-600">{p.category}</td>
-                  <td className="px-4 py-3 font-semibold text-[#FF5C00]">₹{p.price}</td>
-                  <td className="px-4 py-3 text-gray-600">{p.restaurant?.name || "—"}</td>
+                  <td className="px-4 py-3 font-semibold text-orange-600">?{p.price}</td>
+                  <td className="px-4 py-3 text-gray-600">{p.restaurant?.name || "�"}</td>
                   <td className="px-4 py-3 text-right">
                     <div className="flex gap-2 justify-end">
                       <button onClick={() => handleEdit(p)} className="text-xs border border-orange-400 text-orange-500 px-3 py-1.5 rounded-lg hover:bg-orange-50 transition">Edit</button>

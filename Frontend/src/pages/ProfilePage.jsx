@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+﻿import { useRef, useState } from "react";
 import { useUser } from "../context/UserContext";
 import { Link } from "react-router-dom";
 import { api, BASE_URL } from "../utils/api";
@@ -30,7 +30,7 @@ const ROLE_CONFIG = {
     ],
   },
   deliveryPartner: {
-    color: "bg-purple-100 text-purple-700",
+    color: "bg-teal-100 text-teal-700",
     links: [{ to: "/delivery", label: "🚴 Delivery Hub" }],
   },
 };
@@ -172,7 +172,7 @@ function ProfilePage() {
             {user.avatar ? (
               <img src={user.avatar} alt={user.name} className="w-20 h-20 rounded-full object-cover shadow-lg" />
             ) : (
-              <div className="w-20 h-20 rounded-full bg-[#FF5C00] text-white flex items-center justify-center text-3xl font-bold shadow-lg">
+              <div className="w-20 h-20 rounded-full bg-orange-600 text-white flex items-center justify-center text-3xl font-bold shadow-lg">
                 {initials}
               </div>
             )}
@@ -234,10 +234,10 @@ function ProfilePage() {
               <Link
                 key={l.to}
                 to={l.to}
-                className="flex items-center justify-between px-4 py-3 rounded-xl bg-gray-50 hover:bg-orange-50 hover:text-[#FF5C00] transition text-sm font-medium text-gray-700"
+                className="flex items-center justify-between px-4 py-3 rounded-xl bg-gray-50 hover:bg-orange-50 hover:text-orange-600 transition text-sm font-medium text-gray-700"
               >
                 {l.label}
-                <span className="text-gray-400">→</span>
+                <span className="text-gray-400">?</span>
               </Link>
             ))}
           </div>
@@ -258,7 +258,7 @@ function ProfilePage() {
                     onClick={() => setAddressType(t.id)}
                     className={`flex-1 flex flex-col items-center gap-1 py-2.5 rounded-xl border-2 text-xs font-semibold transition ${
                       addressType === t.id
-                        ? "border-[#FF5C00] bg-orange-50 text-[#FF5C00]"
+                        ? "border-orange-600 bg-orange-50 text-orange-600"
                         : "border-gray-200 text-gray-500 hover:border-orange-200"
                     }`}
                   >
@@ -272,7 +272,7 @@ function ProfilePage() {
                   type="text"
                   value={otherLabel}
                   onChange={(e) => setOtherLabel(e.target.value)}
-                  placeholder="Enter a name (e.g. Parents, Gym…)"
+                  placeholder="Enter a name (e.g. Parents, Gym...)"
                   className="mt-2 w-full p-3 border rounded-xl text-sm outline-none focus:ring-2 focus:ring-orange-300"
                 />
               )}
@@ -282,7 +282,7 @@ function ProfilePage() {
               type="button"
               onClick={handleDetectLocation}
               disabled={geoLoading}
-              className="flex items-center justify-center gap-2 w-full border-2 border-dashed border-orange-300 text-[#FF5C00] py-2.5 rounded-xl text-sm font-semibold hover:bg-orange-50 transition disabled:opacity-60"
+              className="flex items-center justify-center gap-2 w-full border-2 border-dashed border-orange-300 text-orange-600 py-2.5 rounded-xl text-sm font-semibold hover:bg-orange-50 transition disabled:opacity-60"
             >
               {geoLoading ? (
                 <>
@@ -319,7 +319,7 @@ function ProfilePage() {
             <button
               type="submit"
               disabled={profileLoading}
-              className="w-full bg-[#FF5C00] text-white py-3 rounded-xl font-semibold hover:bg-orange-600 transition disabled:opacity-60 text-sm"
+              className="w-full bg-orange-600 text-white py-3 rounded-xl font-semibold hover:bg-orange-600 transition disabled:opacity-60 text-sm"
             >
               {profileLoading ? "Saving..." : "Save Address"}
             </button>

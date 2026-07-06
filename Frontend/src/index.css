@@ -1,1 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap');
 @import 'tailwindcss';
+
+:root {
+	--qb-primary: #ff6a1a;
+	--qb-primary-strong: #e9490a;
+	--qb-accent: #0f766e;
+	--qb-ink: #161616;
+	--qb-muted: #6b7280;
+	--qb-paper: #fff9f4;
+	--qb-border: #ffd9c2;
+}
+
+body {
+	font-family: 'Outfit', sans-serif;
+	color: var(--qb-ink);
+	background:
+		radial-gradient(circle at 8% -10%, #ffe3d1 0%, transparent 28%),
+		radial-gradient(circle at 92% -14%, #ffe9d8 0%, transparent 26%),
+		var(--qb-paper);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.brand-heading {
+	font-family: 'Sora', sans-serif;
+}
+
+.qb-btn-primary {
+	background: linear-gradient(135deg, var(--qb-primary), var(--qb-primary-strong));
+	color: #fff;
+}
+
+.qb-btn-primary:hover {
+	filter: brightness(0.95);
+}
+
+.qb-brand-text {
+	background: linear-gradient(135deg, var(--qb-primary), var(--qb-primary-strong));
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}

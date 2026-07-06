@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+﻿import { useState, useEffect, useCallback } from "react";
 import { api } from "../../utils/api";
 
 const STATUS_COLORS = {
   pending: "bg-yellow-100 text-yellow-700",
   accepted: "bg-blue-100 text-blue-700",
   preparing: "bg-orange-100 text-orange-700",
-  "out-for-delivery": "bg-purple-100 text-purple-700",
+  "out-for-delivery": "bg-teal-100 text-teal-700",
   delivered: "bg-green-100 text-green-700",
   cancelled: "bg-red-100 text-red-700",
 };
@@ -27,7 +27,7 @@ const NEXT_STATUS = {
 };
 
 const NEXT_LABEL = {
-  pending: "✓ Accept Order",
+  pending: "? Accept Order",
   accepted: "🍳 Mark as Prepared",
 };
 
@@ -93,7 +93,7 @@ function VendorOrders() {
           <button
             key={s}
             onClick={() => setFilter(s)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition ${filter === s ? "bg-[#FF5C00] text-white shadow" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition ${filter === s ? "bg-orange-600 text-white shadow" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
           >
             {s === "all" ? "All" : getStatusLabel(s)}
           </button>
@@ -127,13 +127,13 @@ function VendorOrders() {
                   {order.items.map((item, i) => (
                     <div key={i} className="flex justify-between text-gray-700">
                       <span>{item.product?.name || "Product"} × {item.quantity}</span>
-                      <span className="font-medium">₹{item.priceAtPurchase * item.quantity}</span>
+                      <span className="font-medium">?{item.priceAtPurchase * item.quantity}</span>
                     </div>
                   ))}
                 </div>
                 <div className="border-t mt-3 pt-2 flex justify-between font-bold text-gray-800 text-sm">
                   <span>Total</span>
-                  <span>₹{order.totalAmount}</span>
+                  <span>?{order.totalAmount}</span>
                 </div>
 
                 {/* Status actions */}
@@ -150,7 +150,7 @@ function VendorOrders() {
                         onClick={() => handleStatusUpdate(order._id, NEXT_STATUS[order.status])}
                         disabled={updating === order._id || (order.status === "accepted" && !order.deliveryPartner)}
                         title={order.status === "accepted" && !order.deliveryPartner ? "A delivery partner must accept the order first" : ""}
-                        className="bg-[#FF5C00] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-orange-600 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-orange-600 transition disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         {updating === order._id ? "Updating..." : (NEXT_LABEL[order.status] || `Mark as ${getStatusLabel(NEXT_STATUS[order.status])}`)}
                       </button>
@@ -160,7 +160,7 @@ function VendorOrders() {
                           disabled={updating === order._id}
                           className="border border-red-300 text-red-500 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-50 transition disabled:opacity-60"
                         >
-                          {order.status === "pending" ? "✕ Reject" : "Cancel"}
+                          {order.status === "pending" ? "? Reject" : "Cancel"}
                         </button>
                       )}
                     </div>

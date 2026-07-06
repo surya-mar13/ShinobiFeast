@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+﻿import { useState, useEffect, useCallback } from "react";
 import { api } from "../../utils/api";
 
 const STATUS_COLORS = {
   pending: "bg-yellow-100 text-yellow-700",
   accepted: "bg-blue-100 text-blue-700",
   preparing: "bg-orange-100 text-orange-700",
-  "out-for-delivery": "bg-purple-100 text-purple-700",
+  "out-for-delivery": "bg-teal-100 text-teal-700",
   delivered: "bg-green-100 text-green-700",
   cancelled: "bg-red-100 text-red-700",
 };
@@ -53,9 +53,9 @@ function RazorpayUpiModal({ order, onPaid, onClose }) {
           amount: razorpayOrder.amount,
           currency: razorpayOrder.currency,
           order_id: razorpayOrder.id,
-          name: "ShinobiFeast",
+          name: "QuickBite",
           description: `Order #${order._id}`,
-          theme: { color: "#FF5C00" },
+          theme: { color: "#E9490A" },
           method: { upi: true, card: false, netbanking: false, wallet: false, emi: false },
           config: { display: { preferences: { show_default_blocks: false }, sequence: ["block.upi"], blocks: { upi: { name: "Pay via UPI", instruments: [{ method: "upi" }] } } } },
           handler: async (response) => {
@@ -89,15 +89,15 @@ function RazorpayUpiModal({ order, onPaid, onClose }) {
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold text-gray-800">📱 Collect UPI Payment</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl font-bold">✕</button>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl font-bold">?</button>
         </div>
-        <p className="text-sm text-gray-500">Amount to collect: <span className="font-bold text-gray-800">₹{order.totalAmount}</span></p>
+        <p className="text-sm text-gray-500">Amount to collect: <span className="font-bold text-gray-800">?{order.totalAmount}</span></p>
         <p className="text-xs text-gray-400">Tap below to open Razorpay checkout. The customer can scan the UPI QR or pay via their UPI app.</p>
         {err && <p className="text-red-500 text-sm font-medium">{err}</p>}
         <button
           onClick={handleCollect}
           disabled={loading}
-          className="w-full bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700 transition disabled:opacity-60"
+          className="w-full bg-teal-600 text-white py-3 rounded-xl font-bold hover:bg-teal-700 transition disabled:opacity-60"
         >
           {loading ? "Opening Razorpay..." : "📱 Open UPI Checkout"}
         </button>
@@ -135,26 +135,26 @@ function OrderCard({ order, actions }) {
               )}
               <div className="flex-1 flex justify-between text-sm">
                 <span className="text-gray-700 font-medium">{item.product?.name || "Product"} <span className="text-gray-400 font-normal">× {item.quantity}</span></span>
-                <span className="font-semibold text-gray-800">₹{item.priceAtPurchase * item.quantity}</span>
+                <span className="font-semibold text-gray-800">?{item.priceAtPurchase * item.quantity}</span>
               </div>
             </div>
           ))}
         </div>
         <div className="border-t mt-3 pt-3 flex justify-between font-bold text-gray-800">
           <span>Total</span>
-          <span>₹{order.totalAmount}</span>
+          <span>?{order.totalAmount}</span>
         </div>
         {order.paymentStatus !== "paid" && (
           <div className="mt-2 flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-lg px-3 py-2">
             <span className="text-lg">💵</span>
-            <span className="text-sm font-semibold text-yellow-700">COD — Collect ₹{order.totalAmount} cash from customer</span>
+            <span className="text-sm font-semibold text-yellow-700">COD � Collect ?{order.totalAmount} cash from customer</span>
           </div>
         )}
 
         {order.status === "out-for-delivery" && (
           <div className="mt-2 flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-lg px-3 py-2">
             <span className="text-lg">🚚</span>
-            <span className="text-sm font-semibold text-purple-700">Picked up from restaurant — on the way to customer</span>
+            <span className="text-sm font-semibold text-teal-700">Picked up from restaurant � on the way to customer</span>
           </div>
         )}
 
@@ -380,7 +380,7 @@ function DeliveryDashboard() {
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`px-5 py-2 rounded-full text-sm font-semibold transition ${tab === t.key ? "bg-[#FF5C00] text-white shadow" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+            className={`px-5 py-2 rounded-full text-sm font-semibold transition ${tab === t.key ? "bg-orange-600 text-white shadow" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
           >
             {t.label}
           </button>
@@ -391,8 +391,8 @@ function DeliveryDashboard() {
       {tab === "available" && (
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-gray-700">Orders Accepted — Ready to Assign</h2>
-            <button onClick={() => { fetchAvailable(); fetchMine(); }} className="text-sm text-[#FF5C00] hover:underline font-medium">
+            <h2 className="text-lg font-bold text-gray-700">Orders Accepted � Ready to Assign</h2>
+            <button onClick={() => { fetchAvailable(); fetchMine(); }} className="text-sm text-orange-600 hover:underline font-medium">
               ↻ Refresh
             </button>
           </div>
@@ -416,9 +416,9 @@ function DeliveryDashboard() {
                     <button
                       onClick={() => handleAccept(o._id)}
                       disabled={actionLoading === o._id + "_accept"}
-                      className="bg-[#FF5C00] text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-orange-600 transition disabled:opacity-60"
+                      className="bg-orange-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-orange-600 transition disabled:opacity-60"
                     >
-                      {actionLoading === o._id + "_accept" ? "Accepting..." : "✓ Accept Delivery"}
+                      {actionLoading === o._id + "_accept" ? "Accepting..." : "? Accept Delivery"}
                     </button>
                   )}
                 />
@@ -433,7 +433,7 @@ function DeliveryDashboard() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-gray-700">My Active Deliveries</h2>
-            <button onClick={fetchMine} className="text-sm text-[#FF5C00] hover:underline font-medium">
+            <button onClick={fetchMine} className="text-sm text-orange-600 hover:underline font-medium">
               ↻ Refresh
             </button>
           </div>
@@ -447,7 +447,7 @@ function DeliveryDashboard() {
               <p className="text-sm mt-1">Accept an order from the Available tab to start delivering</p>
               <button
                 onClick={() => setTab("available")}
-                className="mt-4 bg-[#FF5C00] text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-orange-600 transition"
+                className="mt-4 bg-orange-600 text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-orange-600 transition"
               >
                 Browse Available Orders
               </button>
@@ -463,7 +463,7 @@ function DeliveryDashboard() {
                       <button
                         onClick={() => handleOutForDelivery(o._id)}
                         disabled={actionLoading === o._id + "_outfordelivery"}
-                        className="bg-[#FF5C00] text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-orange-600 transition disabled:opacity-60"
+                        className="bg-orange-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-orange-600 transition disabled:opacity-60"
                       >
                         {actionLoading === o._id + "_outfordelivery" ? "Updating..." : "🚴 Picked Up • Start Delivery"}
                       </button>
@@ -474,19 +474,19 @@ function DeliveryDashboard() {
                           o.codPreference === "upi" ? (
                             <div className="flex items-center gap-2 bg-purple-50 border border-purple-200 rounded-lg px-3 py-2">
                               <span className="text-base">📱</span>
-                              <span className="text-sm font-semibold text-purple-700">Customer will pay via UPI — show them the QR</span>
+                              <span className="text-sm font-semibold text-teal-700">Customer will pay via UPI � show them the QR</span>
                             </div>
                           ) : (
                             <div className="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-lg px-3 py-2">
                               <span className="text-base">💵</span>
-                              <span className="text-sm font-semibold text-yellow-700">Collect ₹{o.totalAmount} cash from customer</span>
+                              <span className="text-sm font-semibold text-yellow-700">Collect ?{o.totalAmount} cash from customer</span>
                             </div>
                           )
                         )}
 
                         {/* OTP verification */}
                         {!otpState[o._id]?.verified ? (
-                          <div className="flex flex-col gap-2 bg-orange-50 border-2 border-dashed border-[#FF5C00] rounded-xl px-4 py-3">
+                          <div className="flex flex-col gap-2 bg-orange-50 border-2 border-dashed border-orange-600 rounded-xl px-4 py-3">
                             <p className="text-xs font-semibold text-gray-600">🔐 Enter the 6-digit OTP from the customer to confirm delivery</p>
                             <div className="flex gap-2">
                               <input
@@ -496,12 +496,12 @@ function DeliveryDashboard() {
                                 placeholder="_ _ _ _ _ _"
                                 value={otpState[o._id]?.value || ""}
                                 onChange={(e) => setOtp(o._id, { value: e.target.value.replace(/\D/g, "").slice(0, 6), error: "" })}
-                                className="flex-1 text-center text-xl font-bold tracking-[0.3em] border-2 border-orange-300 rounded-xl p-2 outline-none focus:border-[#FF5C00]"
+                                className="flex-1 text-center text-xl font-bold tracking-[0.3em] border-2 border-orange-300 rounded-xl p-2 outline-none focus:border-orange-600"
                               />
                               <button
                                 onClick={() => handleVerifyOtp(o._id)}
                                 disabled={otpState[o._id]?.loading || actionLoading === o._id + "_delivered"}
-                                className="bg-[#FF5C00] text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-orange-600 transition disabled:opacity-60"
+                                className="bg-orange-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-orange-600 transition disabled:opacity-60"
                               >
                                 {otpState[o._id]?.loading ? "Verifying..." : "Verify"}
                               </button>
@@ -512,8 +512,8 @@ function DeliveryDashboard() {
                           </div>
                         ) : (
                           <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
-                            <span className="text-base">✅</span>
-                            <span className="text-sm font-semibold text-green-700">OTP verified — marking delivered...</span>
+                            <span className="text-base">?</span>
+                            <span className="text-sm font-semibold text-green-700">OTP verified � marking delivered...</span>
                           </div>
                         )}
 
@@ -521,7 +521,7 @@ function DeliveryDashboard() {
                           {o.paymentStatus !== "paid" && o.codPreference === "upi" && (
                             <button
                               onClick={() => setUpiQrOrder(o)}
-                              className="bg-purple-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-purple-700 transition"
+                              className="bg-teal-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-teal-700 transition"
                             >
                               📱 Show UPI QR
                             </button>
@@ -542,7 +542,7 @@ function DeliveryDashboard() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-gray-700">Delivery History</h2>
-            <button onClick={fetchHistory} className="text-sm text-[#FF5C00] hover:underline font-medium">
+            <button onClick={fetchHistory} className="text-sm text-orange-600 hover:underline font-medium">
               ↻ Refresh
             </button>
           </div>
@@ -612,7 +612,7 @@ function DeliveryDashboard() {
               <button
                 type="submit"
                 disabled={profileLoading}
-                className="bg-[#FF5C00] text-white py-3 rounded-xl font-semibold hover:bg-orange-600 transition disabled:opacity-60"
+                className="bg-orange-600 text-white py-3 rounded-xl font-semibold hover:bg-orange-600 transition disabled:opacity-60"
               >
                   {profileLoading ? "Saving..." : existingProfile ? "Update Profile" : "Create Profile"}
               </button>

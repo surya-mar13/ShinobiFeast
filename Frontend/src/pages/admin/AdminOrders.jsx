@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { api } from "../../utils/api";
 
 const STATUS_COLORS = {
   pending: "bg-yellow-100 text-yellow-700",
   accepted: "bg-blue-100 text-blue-700",
   preparing: "bg-orange-100 text-orange-700",
-  "out-for-delivery": "bg-purple-100 text-purple-700",
+  "out-for-delivery": "bg-teal-100 text-teal-700",
   delivered: "bg-green-100 text-green-700",
   cancelled: "bg-red-100 text-red-700",
 };
@@ -91,18 +91,18 @@ function AdminOrders() {
                 <tr key={o._id} className="hover:bg-gray-50 transition">
                   <td className="px-4 py-3 font-mono text-xs text-gray-400">{o._id.slice(-10)}</td>
                   <td className="px-4 py-3">
-                    <p className="font-medium text-gray-800">{o.user?.name || "—"}</p>
+                    <p className="font-medium text-gray-800">{o.user?.name || "�"}</p>
                     <p className="text-xs text-gray-400">{o.user?.email}</p>
                   </td>
                   <td className="px-4 py-3 text-gray-600">{o.items?.length} item(s)</td>
-                  <td className="px-4 py-3 font-bold text-gray-800">₹{o.totalAmount}</td>
+                  <td className="px-4 py-3 font-bold text-gray-800">?{o.totalAmount}</td>
                   <td className="px-4 py-3">
                     <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${o.paymentStatus === "paid" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}`}>{o.paymentStatus}</span>
                   </td>
                   <td className="px-4 py-3">
                     <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${STATUS_COLORS[o.status] || "bg-gray-100 text-gray-600"}`}>{getStatusLabel(o.status)}</span>
                   </td>
-                  <td className="px-4 py-3 text-gray-600">₹{o.platformCommission || 0}</td>
+                  <td className="px-4 py-3 text-gray-600">?{o.platformCommission || 0}</td>
                   <td className="px-4 py-3 text-gray-400 text-xs">{new Date(o.createdAt).toLocaleDateString()}</td>
                 </tr>
               ))}

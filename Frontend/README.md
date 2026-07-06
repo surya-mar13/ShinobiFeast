@@ -1,16 +1,73 @@
-# React + Vite
+# QuickBite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+QuickBite is a full-stack food delivery platform built with React + Vite (frontend) and Node.js + Express + MongoDB (backend).
 
-Currently, two official plugins are available:
+## Highlights
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Fast restaurant discovery and category-based browsing
+- Cart, checkout, coupons, and Razorpay payment integration
+- Live order flow with OTP delivery verification
+- Role-based dashboards for User, Vendor, Admin, and Delivery Partner
+- Profile management and location-aware serviceability checks
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Frontend: React 19, Vite, Tailwind CSS, React Router
+- Backend: Node.js, Express, MongoDB, Mongoose, JWT
+- Payments: Razorpay
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Frontend: UI app and role dashboards
+- Backend: REST APIs, models, controllers, middlewares
+
+## Local Setup
+
+### 1. Clone and install
+
+```bash
+cd Backend
+npm install
+
+cd ../Frontend
+npm install
+```
+
+### 2. Configure environment variables
+
+Frontend example `.env`:
+
+```bash
+VITE_API_URL=http://localhost:5000
+VITE_RAZORPAY_KEY_ID=your_key_id
+```
+
+Backend example `.env`:
+
+```bash
+PORT=5000
+MONGO_URI=your_mongo_uri
+JWT_SECRET=your_secret
+CLIENT_URL=http://localhost:5173
+RAZORPAY_KEY_ID=your_key_id
+RAZORPAY_KEY_SECRET=your_key_secret
+```
+
+### 3. Run the apps
+
+```bash
+cd Backend
+npm run dev
+
+cd ../Frontend
+npm run dev
+```
+
+## Deployment Notes
+
+- Update frontend API URL to your deployed backend using `VITE_API_URL`.
+- Keep backend CORS origins aligned with frontend deployment URL.
+
+## Branding
+
+This repository is branded as QuickBite.

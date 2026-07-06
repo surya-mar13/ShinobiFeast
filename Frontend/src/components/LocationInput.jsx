@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 
 /**
- * LocationInput — text input with area autocomplete via OpenStreetMap Nominatim.
+ * LocationInput � text input with area autocomplete via OpenStreetMap Nominatim.
  * Props:
  *   value          – controlled string value (optional)
  *   onChange       – called with new string on every keystroke / suggestion pick (optional)
@@ -100,7 +100,7 @@ function LocationInput({ value, onChange, onCommit, placeholder, inputClassName 
       />
       {fetching && (
         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px] animate-pulse pointer-events-none">
-          Searching…
+          Searching...
         </span>
       )}
       {showDrop && suggestions.length > 0 && (
@@ -117,7 +117,7 @@ function LocationInput({ value, onChange, onCommit, placeholder, inputClassName 
               <li
                 key={place.place_id}
                 onMouseDown={() => handleSelect(place)}
-                className="px-4 py-2.5 hover:bg-orange-50 hover:text-[#FF5C00] cursor-pointer border-b last:border-b-0 border-gray-100"
+                className="px-4 py-2.5 hover:bg-orange-50 hover:text-orange-600 cursor-pointer border-b last:border-b-0 border-gray-100"
               >
                 <p className="font-medium text-gray-800 truncate">{short || place.display_name}</p>
                 {country && (
